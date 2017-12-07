@@ -7,8 +7,8 @@ export default function chatbaseMiddleware(bot, { apiKey, platform }) {
 
   setInterceptors(bot, chatbase);
 
-  return (req, res, next) => {
-    req.body.entry.forEach(entry => {
+  return ({ request }, next) => {
+    request.body.entry.forEach(entry => {
       const { sender: { id }, message: { text } } = entry.messaging[0];
 
       chatbase
