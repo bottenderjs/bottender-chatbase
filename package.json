@@ -1,40 +1,36 @@
 {
   "name": "bottender-chatbase",
-  "version": "0.1.0",
   "description": "Middleware for using Chatbase with Bottender.",
-  "main": "lib/index.js",
-  "keywords": [
-    "bottender",
-    "chatbase"
-  ],
   "license": "MIT",
-  "engines": {
-    "node": ">=7.6"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/bottenderjs/bottender-chatbase.git"
   },
+  "version": "0.1.0",
+  "main": "lib/index.js",
   "files": [
-    "lib",
     "express.js",
     "koa.js",
+    "lib",
     "micro.js",
     "restify.js"
   ],
   "scripts": {
     "build": "npm run clean && babel src -d lib --ignore __tests__",
     "clean": "rimraf lib",
+    "precommit": "lint-staged",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
     "lint:staged": "lint-staged",
-    "precommit": "lint-staged",
+    "prepublish": "npm run build",
     "test": "npm run lint:fix && npm run testonly",
     "testonly": "jest",
     "testonly:cov": "jest --coverage --runInBand --forceExit",
     "testonly:watch": "jest --watch",
-    "preversion": "npm test",
-    "prepublish": "npm run build"
+    "preversion": "npm test"
+  },
+  "dependencies": {
+    "@google/chatbase": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -52,7 +48,15 @@
     "jest": "^21.2.1",
     "lint-staged": "^6.0.0",
     "prettier": "^1.8.2",
+    "prettier-package-json": "^1.4.0",
     "rimraf": "^2.6.2"
+  },
+  "keywords": [
+    "bottender",
+    "chatbase"
+  ],
+  "engines": {
+    "node": ">=7.6"
   },
   "jest": {
     "testEnvironment": "node",
@@ -61,12 +65,13 @@
     "resetMocks": true
   },
   "lint-staged": {
+    "package.json": [
+      "prettier-package-json --write",
+      "git add"
+    ],
     "*.js": [
       "eslint --fix",
       "git add"
     ]
-  },
-  "dependencies": {
-    "@google/chatbase": "^1.0.0"
   }
 }
