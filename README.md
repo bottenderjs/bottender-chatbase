@@ -46,8 +46,8 @@ server.listen(5000, () => {
 
 Supported server:
 
-1. express
-2. koa
+* express
+* koa
 
 ### [express](https://github.com/expressjs/express)
 
