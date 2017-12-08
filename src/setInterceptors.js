@@ -6,14 +6,23 @@ export default function setInterceptors(bot, chatbase) {
     const { config } = response;
 
     if (/graph\.facebook\.com.*\/me\/messages/.test(config.url)) {
-      const { recipient: { id }, message: { text } } = JSON.parse(config.data);
+      const messaging = JSON.parse(config.data);
+      const { id } = messaging.recipient;
+      let logMessage;
+
+      // TODO: handle more message type?
+      if (messaging.message && messaging.message.text) {
+        logMessage = `Text: ${messaging.message.text}`;
+      } else {
+        return response;
+      }
 
       chatbase
         .newMessage()
         .setAsTypeAgent()
         .setUserId(id)
         .setTimestamp(Date.now().toString())
-        .setMessage(text)
+        .setMessage(logMessage)
         .send()
         .catch(e => console.error(e));
     }
