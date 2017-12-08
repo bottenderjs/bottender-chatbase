@@ -9,6 +9,7 @@ export default function chatbaseMiddleware(bot, { apiKey, platform }) {
 
   return ({ request }, next) => {
     request.body.entry.forEach(entry => {
+      // FIXME: messenger postback will fail this
       const { sender: { id }, message: { text } } = entry.messaging[0];
 
       chatbase
@@ -21,6 +22,6 @@ export default function chatbaseMiddleware(bot, { apiKey, platform }) {
         .catch(console.error);
     });
 
-    next();
+    return next();
   };
 }
